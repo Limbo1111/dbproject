@@ -26,11 +26,17 @@
         <td>
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="student" th:field="*{name}" placeholder="Enter the name" value="" required="">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    name error
+                </div>
             </div>
         </td>
         <td>
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="faculty" th:field="*{faculty}" placeholder="Enter the faculty" value="" required="">
+                <div th:if="${#fields.hasErrors('faculty')}" th:errors="*{faculty}">
+                    faculty error
+                </div>
             </div>
         </td>
         <td>

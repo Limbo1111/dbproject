@@ -5,8 +5,10 @@ import com.mydatabase.dbproject.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -52,7 +54,10 @@ public class MainAppController {
     }
 
     @PostMapping("/main/allstudents/")
-    public String create(@ModelAttribute("student") Student student) {
+    public String create(@ModelAttribute("student") @Valid Student student, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "new";
+        }
         studentService.save(student);
         return "redirect:/main/allstudents";
     }
@@ -62,7 +67,10 @@ public class MainAppController {
         return "edit";
     }
     @PatchMapping("/main/allstudents/{id}")
-    public String update(@ModelAttribute Student student, @PathVariable Long id) {
+    public String update(@ModelAttribute @Valid Student student, BindingResult bindingResult ,@PathVariable Long id) {
+        if (bindingResult.hasErrors()) {
+            return "edit";
+        }
         studentService.update(id, student);
         studentService.save(student);
         return "redirect:/main/allstudents";
